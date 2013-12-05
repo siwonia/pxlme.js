@@ -45,11 +45,7 @@ PXLME.Stage = function( data ) {
   this.height = data.height || 320;
   
   // set cursor radius
-  this.cursor = {};
-  this.cursor.radius = data.cursorRadius || 30;
-  this.cursor.x = 0;
-  this.cursor.y = 0;
-  this.cursor.onStage = false;
+  this.cursor = new PXLME.Cursor( data.cursorRadius );
   
   // set Pixel Acceleration
   this.speedUp   = data.speedUp || 1.3;
@@ -122,8 +118,18 @@ PXLME.Stage = function( data ) {
   // start Animation Loop when it is the first stage
   if ( !PXLME.running ) {
     PXLME.running = true;
-    PXLME.requestAnimationFrame( PXLME.render );
+    PXLME.requestAnimationFrame.call( window, PXLME.render );
   }
+}
+
+// every stage can have another cursor
+PXLME.Cursor = function( radius ) {
+  
+  this.radius = radius || 30;
+  this.x = 0;
+  this.y = 0;
+  this.onStage = false;
+  
 }
 
 // a Stage can have multiply Pixels
@@ -155,7 +161,7 @@ PXLME.Pixel = function( x, y, color, stage ) {
 PXLME.render = function() {
 
   // request new frame
-  PXLME.requestAnimationFrame( PXLME.render );
+  PXLME.requestAnimationFrame.call( window, PXLME.render );
   
   // loop all Stages
   for ( var s in PXLME.stages ) {
@@ -244,15 +250,11 @@ PXLME.distance = function( p1, p2 ) {
 }
 
 // request a Animation Frame
-PXLME.requestAnimationFrame = ( function() {
-
-  return (
+PXLME.requestAnimationFrame = (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
     function( callback ) { window.setTimeout( callback, 1000 / 60 ); }
-  );
-  
-})();
+);
