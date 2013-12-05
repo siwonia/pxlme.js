@@ -7,7 +7,7 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel grafics by Tobias
 
 ### Demos ###
 
-- [Simple smiley demo](<https://rawgithub.com/schultka/pxlme.js/master/example.html>)
+- [Advanced Smiley Demo](<https://rawgithub.com/schultka/pxlme.js/master/demos/smiley.html>)
 
 ### Simple Usage ###
 
