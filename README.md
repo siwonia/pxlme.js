@@ -8,18 +8,18 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel grafics by Tobias
 ### Simple Usage ###
 
 ```javascript
-	
-	// create a simple stage without any arguments
-	var stage = new PXLME.Stage({});
+    
+  // create a simple stage without any arguments
+  var stage = new PXLME.Stage({});
 ```
 
 ### Advanced Usage ###
 
 ```javascript
-	
-	// define an options object
-	var opt = {};
-	// set the target ID
+    
+  // define an options object
+  var opt = {};
+  // set the target ID
   opt.containerId = 'pxlme-stage';
   // set the width and height of the canvas (px)
   opt.width = 500;
