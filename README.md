@@ -3,7 +3,7 @@ PXLME.js
 
 #### Javascript 2D Renderer ####
 
-PXLME (Pixel Me) is an open source framework for dynamic pixel grafics by Tobias Schultka.
+PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobias Schultka.
 
 ### Demos ###
 
