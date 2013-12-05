@@ -244,10 +244,15 @@ PXLME.distance = function( p1, p2 ) {
 }
 
 // request a Animation Frame
-PXLME.requestAnimationFrame = 
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.oRequestAnimationFrame ||
-  window.msRequestAnimationFrame ||
-  function( callback ) { window.setTimeout( callback, 1000 / 60 ); };
+PXLME.requestAnimationFrame = ( function() {
+
+  return (
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function( callback ) { window.setTimeout( callback, 1000 / 60 ); }
+  );
+  
+})();
