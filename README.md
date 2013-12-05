@@ -5,6 +5,10 @@ PXLME.js
 
 PXLME (Pixel Me) is an open source framework for dynamic pixel grafics by Tobias Schultka.
 
+### Demos ###
+
+- [Simple smiley demo](<https://rawgithub.com/schultka/pxlme.js/master/example.html>)
+
 ### Simple Usage ###
 
 ```javascript
@@ -40,8 +44,8 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel grafics by Tobias
   // set the colors of the pixels based on your matrix
   opt.colors = {
     '1' : '#00BDE3',
-    '2' : '#000',
-    'A' : '#F00'
+    '2' : '#f3daca',
+    'A' : '#d27a8d'
   };
   // set the size of your pixel (px)
   opt.pixelSize = 10;

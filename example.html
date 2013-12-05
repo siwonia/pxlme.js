@@ -16,18 +16,18 @@
       opt.matrix = [
         "001111100",
         "012222210",
-        "122323221",
+        "122A2A221",
         "122222221",
-        "122232221",
-        "123222321",
-        "122333221",
+        "1222A2221",
+        "12A222A21",
+        "122AAA221",
         "012222210",
         "001111100"
       ];
       opt.colors = {
         '1' : '#00BDE3',
-        '2' : '#000',
-        '3' : '#F00'
+        '2' : '#f3daca',
+        'A' : '#d27a8d'
       };
       opt.pixelSize = 10;
       opt.pixelSizeRatio = .1;
@@ -36,10 +36,7 @@
       opt.speedUp = 1.8;
       opt.speedDown = .7;
       
-      var stage1 = new PXLME.Stage( opt );
-      var stage2 = new PXLME.Stage({});
-      
-      console.log( stage1 );
+      var stage = new PXLME.Stage( opt );
     </script>
   </body>
 </html>
