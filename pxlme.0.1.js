@@ -122,7 +122,7 @@ PXLME.Stage = function( data ) {
   // start Animation Loop when it is the first stage
   if ( !PXLME.running ) {
     PXLME.running = true;
-    requestAnimationFrame( PXLME.render );
+    PXLME.requestAnimationFrame( PXLME.render );
   }
 }
 
@@ -155,7 +155,7 @@ PXLME.Pixel = function( x, y, color, stage ) {
 PXLME.render = function() {
 
   // request new frame
-  requestAnimationFrame( PXLME.render );
+  PXLME.requestAnimationFrame( PXLME.render );
   
   // loop all Stages
   for ( var s in PXLME.stages ) {
