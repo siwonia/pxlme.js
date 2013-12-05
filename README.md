@@ -50,7 +50,7 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel grafics by Tobias
   // set the maximal pixel size
   opt.pixelSizeMax = 26;
   // set the cursor radius
-  opt.cursorRadius = 20;
+  opt.cursorRadius = 40;
   // set how fast a pixel escapes if the cursor is nearby
   opt.speedUp = 1.8;
   // set how fast a pixel is going back
