@@ -46,7 +46,7 @@ PXLME.Stage = function( data ) {
   
   // set cursor radius
   this.cursor = {};
-  this.cursor.radius = data.cursorRadius || 15;
+  this.cursor.radius = data.cursorRadius || 30;
   this.cursor.x = 0;
   this.cursor.y = 0;
   this.cursor.onStage = false;
@@ -177,10 +177,10 @@ PXLME.render = function() {
         var d = PXLME.distance( stage.cursor , pixel );
       } else {
         // set distace inaccessible
-        var d = stage.cursor.radius * 2 + 100;
+        var d = stage.cursor.radius + 100;
       }
       
-      if ( d < stage.cursor.radius * 2 ) {
+      if ( d < stage.cursor.radius ) {
         
         // escape from the cursor
         pixel.speed.y += (( pixel.y - stage.cursor.y) * ( d + stage.speedUp ) / d ) - ( pixel.y - stage.cursor.y );
