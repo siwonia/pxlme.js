@@ -1,8 +1,8 @@
-// PXLME.JS - v0.1
+// PXLME.JS - v0.2
 // Copyright (c) 2013, Tobias Schultka.
 // http://tobias-schultka.com
 //
-// Compiled: 2013-12-05
+// Compiled: 2013-12-29
 //
 // PXLME.JS is licensed under the MIT License.
 // http://www.opensource.org/licenses/mit-license.php
@@ -120,20 +120,33 @@ PXLME.Stage = function( data ) {
     PXLME.running = true;
     PXLME.requestAnimationFrame.call( window, PXLME.render );
   }
+
 }
 
-// every stage can have another cursor
-PXLME.Cursor = function( radius ) {
+// render Stage method
+PXLME.Stage.prototype.render = function() {
+
+  // clear Canvas Stage
+  this.ctx.clearRect( 0, 0, this.width, this.height );
   
-  this.radius = radius || 30;
-  this.x = 0;
-  this.y = 0;
-  this.onStage = false;
+  // move and render all Pixels
+  for ( var i in this.pixels ) {
+    
+    // set new Pixel position
+    this.pixels[i].move();
+    
+    // render the Pixel
+    this.pixels[i].render();
   
+  }
+
 }
 
 // a Stage can have multiply Pixels
 PXLME.Pixel = function( x, y, color, stage ) {
+  
+  // set Pixel Stage
+  this.stage = stage;
   
   // set Pixel Position
   // (half stage) - (half matrix) + (position) + (half pixel for center)
@@ -157,86 +170,93 @@ PXLME.Pixel = function( x, y, color, stage ) {
   
 }
 
+PXLME.Pixel.prototype.move = function() {
+
+  // get distance if Cursor is on Stage
+  if ( this.stage.cursor.onStage ) {
+    // get distance between Cursor and Pixel
+    var d = PXLME.distance( this.stage.cursor , this );
+  } else {
+    // set distace inaccessible
+    var d = this.stage.cursor.radius + 100;
+  }
+  
+  // change pixel speed if cursor is nearby
+  if ( d < this.stage.cursor.radius ) {
+
+    // escape from the cursor
+    this.speed.y += (( this.y - this.stage.cursor.y) * ( d + this.stage.speedUp ) / d ) - ( this.y - this.stage.cursor.y );
+    this.speed.x += (( this.x - this.stage.cursor.x) * ( d + this.stage.speedUp ) / d ) - ( this.x - this.stage.cursor.x );
+  
+    // set is moving true
+    this.isMoving = true;
+
+  } else if ( this.isMoving ) {
+    
+    // go back to start
+    this.speed.y -= (( this.y - this.start.y) * ( d + this.stage.speedDown ) / d ) - ( this.y - this.start.y );
+    this.speed.x -= (( this.x - this.start.x) * ( d + this.stage.speedDown ) / d ) - ( this.x - this.start.x );
+  
+    // slow Pixel down
+    this.speed.y *= this.stage.pixelRubbing;
+    this.speed.x *= this.stage.pixelRubbing;
+  }
+  
+  // set Start Position if Pixel is nearby 
+  if (
+    PXLME.distance( this, this.start ) < 1 &&
+    PXLME.distance( this, { x : this.x - this.speed.x, y : this.y - this.speed.y }) < this.stage.speedUp
+  ){
+    this.speed.y = 0;
+    this.speed.x = 0;
+    this.y = this.start.y;
+    this.x = this.start.x;
+    this.isMoving = false;
+  }
+  
+  // move pixels
+  this.x += this.speed.x;
+  this.y += this.speed.y;
+  this.z = this.stage.pixelSize + PXLME.distance( this, this.start ) * this.stage.pixelSizeRatio;
+  if ( this.z > this.stage.pixelSizeMax ){ this.z = this.stage.pixelSizeMax; }
+
+}
+
+PXLME.Pixel.prototype.render = function() {
+
+  // draw Pixels on Canvas
+  this.stage.ctx.beginPath();
+  this.stage.ctx.rect(
+    this.x - this.z / 2, 
+    this.y - this.z / 2,
+    this.z,
+    this.z
+  );
+  this.stage.ctx.fillStyle = this.color;
+  this.stage.ctx.fill();
+}
+
 // run a frame and render on canvas
 PXLME.render = function() {
 
   // request new frame
   PXLME.requestAnimationFrame.call( window, PXLME.render );
   
-  // loop all Stages
-  for ( var s in PXLME.stages ) {
-    
-    var stage = PXLME.stages[s];
-    
-    // clear Canvas Stage
-    stage.ctx.clearRect( 0, 0, stage.width, stage.height );
-    
-    // set Pixel
-    for ( var p in stage.pixels ) {
-      
-      // define Pixel
-      var pixel = stage.pixels[p];
-      
-      // get distance if Cursor is on Stage
-      if ( stage.cursor.onStage ) {
-        // get distance between Cursor and Pixel
-        var d = PXLME.distance( stage.cursor , pixel );
-      } else {
-        // set distace inaccessible
-        var d = stage.cursor.radius + 100;
-      }
-      
-      if ( d < stage.cursor.radius ) {
-        
-        // escape from the cursor
-        pixel.speed.y += (( pixel.y - stage.cursor.y) * ( d + stage.speedUp ) / d ) - ( pixel.y - stage.cursor.y );
-        pixel.speed.x += (( pixel.x - stage.cursor.x) * ( d + stage.speedUp ) / d ) - ( pixel.x - stage.cursor.x );
-      
-        // set is moving true
-        pixel.isMoving = true;
-
-      } else if ( pixel.isMoving ) {
-        
-        // go back to start
-        pixel.speed.y -= (( pixel.y - pixel.start.y) * ( d + stage.speedDown ) / d ) - ( pixel.y - pixel.start.y );
-        pixel.speed.x -= (( pixel.x - pixel.start.x) * ( d + stage.speedDown ) / d ) - ( pixel.x - pixel.start.x );
-      
-        // slow Pixel down
-        pixel.speed.y *= stage.pixelRubbing;
-        pixel.speed.x *= stage.pixelRubbing;
-      }
-      
-      // set Start Position if Pixel is nearby 
-      if (
-        PXLME.distance( pixel, pixel.start ) < 1 &&
-        PXLME.distance( pixel, { x : pixel.x - pixel.speed.x, y : pixel.y - pixel.speed.y }) < stage.speedUp
-      ){
-        pixel.speed.y = 0;
-        pixel.speed.x = 0;
-        pixel.y = pixel.start.y;
-        pixel.x = pixel.start.x;
-        pixel.isMoving = false;
-      }
-      
-      // move pixels
-      pixel.x += pixel.speed.x;
-      pixel.y += pixel.speed.y;
-      pixel.z = stage.pixelSize + PXLME.distance( pixel, pixel.start ) * stage.pixelSizeRatio;
-      if ( pixel.z > stage.pixelSizeMax ){ pixel.z = stage.pixelSizeMax; }
-      
-      // draw Pixels on Canvas
-      stage.ctx.beginPath();
-      stage.ctx.rect(
-        pixel.x - pixel.z / 2, 
-        pixel.y - pixel.z / 2,
-        pixel.z,
-        pixel.z
-      );
-      stage.ctx.fillStyle = pixel.color;
-      stage.ctx.fill();
-    }
+  // render all Stages
+  for ( var i in PXLME.stages ) {
+    PXLME.stages[i].render();
   }
 
+}
+
+// every stage can have another cursor
+PXLME.Cursor = function( radius ) {
+  
+  this.radius = radius || 30;
+  this.x = 0;
+  this.y = 0;
+  this.onStage = false;
+  
 }
 
 // get distance between two points
@@ -246,7 +266,7 @@ PXLME.distance = function( p1, p2 ) {
   var xs = p2.x - p1.x;
   var ys = p2.y - p1.y;
   return Math.sqrt(( xs * xs ) + ( ys * ys ));
-  
+
 }
 
 // request a Animation Frame
