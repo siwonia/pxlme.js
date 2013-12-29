@@ -123,7 +123,7 @@ PXLME.Stage = function( data ) {
 
 }
 
-// render Stage method
+// render the Stage
 PXLME.Stage.prototype.render = function() {
 
   // clear Canvas Stage
@@ -170,6 +170,7 @@ PXLME.Pixel = function( x, y, color, stage ) {
   
 }
 
+// set the new Pixel position
 PXLME.Pixel.prototype.move = function() {
 
   // get distance if Cursor is on Stage
@@ -222,6 +223,7 @@ PXLME.Pixel.prototype.move = function() {
 
 }
 
+// render the Pixel
 PXLME.Pixel.prototype.render = function() {
 
   // draw Pixels on Canvas
