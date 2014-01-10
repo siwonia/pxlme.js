@@ -118,7 +118,7 @@ PXLME.Stage = function( data ) {
   // start Animation Loop when it is the first stage
   if ( !PXLME.running ) {
     PXLME.running = true;
-    PXLME.requestAnimationFrame.call( window, PXLME.render );
+    requestAnimFrame( PXLME.render );
   }
 
 }
@@ -242,7 +242,7 @@ PXLME.Pixel.prototype.render = function() {
 PXLME.render = function() {
 
   // request new frame
-  PXLME.requestAnimationFrame.call( window, PXLME.render );
+  requestAnimFrame( PXLME.render );
   
   // render all Stages
   for ( var i in PXLME.stages ) {
@@ -272,11 +272,13 @@ PXLME.distance = function( p1, p2 ) {
 }
 
 // request a Animation Frame
-PXLME.requestAnimationFrame = (
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.oRequestAnimationFrame ||
-  window.msRequestAnimationFrame ||
-  function( callback ) { window.setTimeout( callback, 1000 / 60 ); }
-);
+window.requestAnimFrame = ( function() {
+  return (
+    window.requestAnimationFrame       ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame    ||
+    window.oRequestAnimationFrame      ||
+    window.msRequestAnimationFrame     ||
+    function( callback ) { window.setTimeout( callback, 1000 / 60 ); }
+  );
+})();
