@@ -13,7 +13,14 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
 
 ```javascript
   // create a simple stage without any arguments
-  var stage = new PXLME.Stage({});
+  var app = new PXLME.App();
+  var stage = app.addStage({
+    matrix : [
+      "101",
+      "010",
+      "101"
+    ];
+  });
 ```
 
 ### Advanced Usage ###
@@ -61,8 +68,11 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
   opt.speedDown = .7;
   // set how many percent the speed has after every frame (1 = 100%)
   opt.pixelRubbing = .974;
-  // create the stage
-  var stage = new PXLME.Stage( opt );
+  
+  // create an app instance
+  var app = new PXLME.App();
+  // create a stage and add it to the app
+  var stage = app.addStage( opt );
 ```
 
 This content is released under the (http://opensource.org/licenses/MIT) MIT License.
