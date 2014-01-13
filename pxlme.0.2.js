@@ -1,32 +1,53 @@
 // PXLME.JS - v0.2
-// Copyright (c) 2013, Tobias Schultka.
+// Copyright (c) 2013-2014, Tobias Schultka.
 // http://tobias-schultka.com
 //
-// Compiled: 2013-12-29
+// Compiled: 2014-01-13
 //
 // PXLME.JS is licensed under the MIT License.
 // http://www.opensource.org/licenses/mit-license.php
 
 var PXLME = PXLME || {};
 
-// set true when Animation is running
-PXLME.running = false;
-
-// run when move mouse on canvas
-PXLME.mousemove = function( e, stage ) {
-
-  // set Cursor Position
-  var rect = stage.canvas.getBoundingClientRect();
-  stage.cursor.x = e.clientX - rect.left;
-  stage.cursor.y = e.clientY - rect.top;
+// app constructor
+PXLME.App = function() {
   
-  // activate Cursor
-  stage.cursor.onStage = true;
+  // create an empty stage list
+  this.stageList = [];
+  
+  // start animation
+  this.render();
   
 }
 
-// create array of all Stages
-PXLME.stages = [];
+// create new Stage and return it
+PXLME.App.prototype.addStage = function( data ) {
+  
+  // create new instance
+  var stage = new PXLME.Stage( data );
+  
+  // push instance to stage list
+  this.stageList.push( stage );
+  
+  // return the stage
+  return stage;
+  
+}
+
+// render the app
+PXLME.App.prototype.render = function() {
+  
+  var self = this;
+
+  // request new frame
+  requestAnimFrame( function() { self.render(); });
+  
+  // render all Stages
+  for ( var i in this.stageList ) {
+    this.stageList[i].render();
+  }
+
+}
 
 // a Stage represents the the Canvas where the App is rendered on
 PXLME.Stage = function( data ) {
@@ -71,11 +92,11 @@ PXLME.Stage = function( data ) {
   
   // check if browser supports event listener
   if ( window.addEventListener ) {
-    this.canvas.addEventListener( 'mousemove' , function(e) { PXLME.mousemove( e, self ); }, false );
+    this.canvas.addEventListener( 'mousemove' , function( e ) { self.onMouseMove( e ); }, false );
   }
   
   // set Pixel Colors
-  this.colors = data.colors || {};
+  this.colors = data.colors || { '1' : '#000000' };
   
   // add Pixels
   this.pixels = [];
@@ -111,16 +132,20 @@ PXLME.Stage = function( data ) {
       }
     }
   }
-  
-  // push this Stage to Stages array
-  PXLME.stages.push( this );
-  
-  // start Animation Loop when it is the first stage
-  if ( !PXLME.running ) {
-    PXLME.running = true;
-    requestAnimFrame( PXLME.render );
-  }
 
+}
+
+// run when move mouse on canvas
+PXLME.Stage.prototype.onMouseMove = function( e ) {
+
+  // set Cursor Position
+  var rect = this.canvas.getBoundingClientRect();
+  this.cursor.x = e.clientX - rect.left;
+  this.cursor.y = e.clientY - rect.top;
+  
+  // activate Cursor
+  this.cursor.onStage = true;
+  
 }
 
 // render the Stage
@@ -249,19 +274,6 @@ PXLME.Pixel.prototype.getDistance = function( pixel ) {
 
 }
 
-// run a frame and render on canvas
-PXLME.render = function() {
-
-  // request new frame
-  requestAnimFrame( PXLME.render );
-  
-  // render all Stages
-  for ( var i in PXLME.stages ) {
-    PXLME.stages[i].render();
-  }
-
-}
-
 // every stage can have another cursor
 PXLME.Cursor = function( radius ) {
   
@@ -273,13 +285,10 @@ PXLME.Cursor = function( radius ) {
 }
 
 // request a Animation Frame
-window.requestAnimFrame = ( function() {
-  return (
-    window.requestAnimationFrame       ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    window.oRequestAnimationFrame      ||
-    window.msRequestAnimationFrame     ||
-    function( callback ) { window.setTimeout( callback, 1000 / 60 ); }
-  );
-})();
+window.requestAnimFrame =
+  window.requestAnimationFrame       ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame    ||
+  window.oRequestAnimationFrame      ||
+  window.msRequestAnimationFrame     ||
+  function( callback ) { window.setTimeout( callback, 1000 / 60 ); };
