@@ -99,7 +99,7 @@ PXLME.Stage = function( data ) {
   this.colors = data.colors || { '1' : '#000000' };
   
   // add Pixels
-  this.pixels = [];
+  this.pixelList = [];
   
   // set Rows array
   var matrix = data.matrix || [
@@ -126,7 +126,7 @@ PXLME.Stage = function( data ) {
       if ( matrix[y].charAt(x) != '0' ) {
       
         // create Pixel and push it to Pixels array
-        this.pixels.push( 
+        this.pixelList.push( 
           new PXLME.Pixel( x, y, matrix[y].charAt(x), this )
         );
       }
@@ -155,13 +155,13 @@ PXLME.Stage.prototype.render = function() {
   this.ctx.clearRect( 0, 0, this.width, this.height );
   
   // move and render all Pixels
-  for ( var i in this.pixels ) {
+  for ( var i in this.pixelList ) {
     
     // set new Pixel position
-    this.pixels[i].move();
+    this.pixelList[i].move();
     
     // render the Pixel
-    this.pixels[i].render();
+    this.pixelList[i].render();
   
   }
 
