@@ -176,7 +176,7 @@ PXLME.Pixel.prototype.move = function() {
   // get distance if Cursor is on Stage
   if ( this.stage.cursor.onStage ) {
     // get distance between Cursor and Pixel
-    var d = PXLME.distance( this.stage.cursor , this );
+    var d = this.getDistance( this.stage.cursor );
   } else {
     // set distace inaccessible
     var d = this.stage.cursor.radius + 100;
@@ -205,8 +205,8 @@ PXLME.Pixel.prototype.move = function() {
   
   // set Start Position if Pixel is nearby 
   if (
-    PXLME.distance( this, this.start ) < 1 &&
-    PXLME.distance( this, { x : this.x - this.speed.x, y : this.y - this.speed.y }) < this.stage.speedUp
+    this.getDistance( this.start ) < 1 &&
+    this.getDistance( { x : this.x - this.speed.x, y : this.y - this.speed.y }) < this.stage.speedUp
   ){
     this.speed.y = 0;
     this.speed.x = 0;
@@ -218,7 +218,7 @@ PXLME.Pixel.prototype.move = function() {
   // move pixels
   this.x += this.speed.x;
   this.y += this.speed.y;
-  this.z = this.stage.pixelSize + PXLME.distance( this, this.start ) * this.stage.pixelSizeRatio;
+  this.z = this.stage.pixelSize + this.getDistance( this.start ) * this.stage.pixelSizeRatio;
   if ( this.z > this.stage.pixelSizeMax ){ this.z = this.stage.pixelSizeMax; }
 
 }
@@ -236,6 +236,17 @@ PXLME.Pixel.prototype.render = function() {
   );
   this.stage.ctx.fillStyle = this.color;
   this.stage.ctx.fill();
+}
+
+
+// get distance between two points
+PXLME.Pixel.prototype.getDistance = function( pixel ) {
+
+  // pythagoras
+  var xs = pixel.x - this.x;
+  var ys = pixel.y - this.y;
+  return Math.sqrt(( xs * xs ) + ( ys * ys ));
+
 }
 
 // run a frame and render on canvas
@@ -259,16 +270,6 @@ PXLME.Cursor = function( radius ) {
   this.y = 0;
   this.onStage = false;
   
-}
-
-// get distance between two points
-PXLME.distance = function( p1, p2 ) {
-
-  // pythagoras
-  var xs = p2.x - p1.x;
-  var ys = p2.y - p1.y;
-  return Math.sqrt(( xs * xs ) + ( ys * ys ));
-
 }
 
 // request a Animation Frame
