@@ -20,7 +20,8 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
       "101",
       "010",
       "101"
-    ];
+    ],
+    colors : { '1' : '#FF0000' }
   });
 ```
 
