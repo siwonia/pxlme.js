@@ -12,8 +12,9 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
 ### Simple Usage ###
 
 ```javascript
-  // create a simple stage without any arguments
+  // create an app instance
   var app = new PXLME.App();
+  // create a stage and add it to the app
   var stage = app.addStage({
     matrix : [
       "101",
