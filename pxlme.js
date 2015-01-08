@@ -189,11 +189,10 @@ PXLME.Pixel = function ( x, y, color, stage ) {
   this.z = stage.pixelSize;
 
   // set Pixel Color
-  this.color = stage.colors[color] || '#000';
+  this.color = stage.colors[color] || "#000";
 
   // set Pixel is not moving
   this.isMoving = false;
-
 }
 
 // set the new pixel position
@@ -272,7 +271,6 @@ PXLME.Pixel.prototype.getDistance = function ( pixel ) {
 
 // every stage can have another cursor
 PXLME.Cursor = function ( radius ) {
-
     this.radius = radius || 30;
     this.x = 0;
     this.y = 0;
