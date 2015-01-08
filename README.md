@@ -36,7 +36,7 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
   var opt = {};
 
   // set the target ID
-  opt.containerId = 'pxlme-stage';
+  opt.containerId = "pxlme-stage";
 
   // set the width and height of the canvas (px)
   opt.width = 800;
