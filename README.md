@@ -7,21 +7,22 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
 
 ### Demos ###
 
-- [Advanced Smiley Demo](<https://rawgithub.com/schultka/pxlme.js/master/demos/smiley.html>)
+- [Advanced Smiley Demo](<https://rawgithub.com/schultka/pxlme.js/master/example.html>)
 
 ### Simple Usage ###
 
 ```javascript
   // create an app instance
   var app = new PXLME.App();
-  // create a stage and add it to the app
+
+  // create a stage and push it to the app
   var stage = app.addStage({
-    matrix : [
+    "matrix": [
       "101",
       "010",
       "101"
     ],
-    colors : { '1' : '#FF0000' }
+    colors : { "1": "#FF0000" }
   });
 ```
 
@@ -33,11 +34,14 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
 ```javascript
   // define an options object
   var opt = {};
+
   // set the target ID
   opt.containerId = 'pxlme-stage';
+
   // set the width and height of the canvas (px)
   opt.width = 800;
   opt.height = 600;
+
   // set the pixel matrix. 0 is always no pixel
   opt.matrix = [
     "001111100",
@@ -50,30 +54,39 @@ PXLME (Pixel Me) is an open source framework for dynamic pixel graphics by Tobia
     "012222210",
     "001111100"
   ];
-  // set the colors of the pixels based on your matrix
+
+  // set the colors of pixels based on the matrix
   opt.colors = {
-    '1' : '#00BDE3',
-    '2' : '#f3daca',
-    'A' : '#d27a8d'
+    "1": "#00BDE3",
+    "2": "#f3daca",
+    "A": "#d27a8d"
   };
-  // set the size of your pixel (px)
+
+  // set the size of pixels (px)
   opt.pixelSize = 10;
-  // set the speed the pixel is growing the farther the pixel is from start
+
+  // set the speed of pixel growing, the farther the pixel is away from start
   opt.pixelSizeRatio = .1;
+
   // set the maximal pixel size
   opt.pixelSizeMax = 26;
-  // set the cursor radius
+
+  // set cursor radius
   opt.cursorRadius = 40;
-  // set how fast a pixel escapes if the cursor is nearby
+
+  // set how fast a pixel escapes, if the cursor is nearby
   opt.speedUp = 1.8;
+
   // set how fast a pixel is going back
   opt.speedDown = .7;
-  // set how many percent the speed has after every frame (1 = 100%)
+
+  // set the percentage of speed after every frame (1 = 100%)
   opt.pixelRubbing = .974;
   
   // create an app instance
   var app = new PXLME.App();
-  // create a stage and add it to the app
+
+  // create a stage and push it to the app
   var stage = app.addStage( opt );
 ```
 

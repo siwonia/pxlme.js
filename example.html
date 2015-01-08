@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>PXLME - Tobias Schultka</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <script src="pxlme.js"></script>
+    </head>
+    <body>
+        <div id="pxlme-stage"></div>
+        <script>
+            var opt = {};
+            opt.containerId = "pxlme-stage";
+            opt.width = 800;
+            opt.height = 600;
+            opt.matrix = [
+                "001111100",
+                "012222210",
+                "122A2A221",
+                "122222221",
+                "1222A2221",
+                "12A222A21",
+                "122AAA221",
+                "012222210",
+                "001111100"
+            ];
+            opt.colors = {
+                "1": "#00BDE3",
+                "2": "#f3daca",
+                "A": "#d27a8d"
+            };
+            opt.pixelSize = 10;
+            opt.pixelSizeRatio = .1;
+            opt.pixelSizeMax = 26;
+            opt.cursorRadius = 40;
+            opt.speedUp = 1.8;
+            opt.speedDown = .7;
+
+            var app = new PXLME.App();
+            var stage = app.addStage( opt );
+        </script>
+    </body>
+</html>
