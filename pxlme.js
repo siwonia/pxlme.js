@@ -245,7 +245,7 @@ PXLME.Pixel.prototype.move = function () {
     }
 }
 
-// render the oixel
+// render the pixel
 PXLME.Pixel.prototype.render = function () {
 
     // draw pixels on canvas
@@ -269,7 +269,7 @@ PXLME.Pixel.prototype.getDistance = function ( pixel ) {
     return Math.sqrt(( xs * xs ) + ( ys * ys ));
 }
 
-// every stage can have another cursor
+// every stage can have a differnt cursor
 PXLME.Cursor = function ( radius ) {
     this.radius = radius || 30;
     this.x = 0;
