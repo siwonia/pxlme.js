@@ -5,7 +5,7 @@
 // PXLME.JS is licensed under the MIT License.
 // http://www.opensource.org/licenses/mit-license.php
 
-(function (window) {
+( function ( window ) {
 "use strict";
 
 window.PXLME = window.PXLME || {};
@@ -171,28 +171,34 @@ PXLME.Stage.prototype.render = function () {
 // a stage can have multiply pixels
 PXLME.Pixel = function ( x, y, color, stage ) {
 
-  // set Pixel Stage
-  this.stage = stage;
+    // set pixel stage
+    this.stage = stage;
 
-  // set Pixel Position
-  // (half stage) - (half matrix) + (position) + (half pixel for center)
-  this.x = ( stage.width  / 2 ) - ( stage.matrixSize.x * stage.pixelSize / 2 ) + ( x * stage.pixelSize ) + Math.floor( stage.pixelSize / 2);
-  this.y = ( stage.height / 2 ) - ( stage.matrixSize.y * stage.pixelSize / 2 ) + ( y * stage.pixelSize ) + Math.floor( stage.pixelSize / 2);
+    // set pixel position
+    // (half stage) - (half matrix) + (position) + (half pixel for center)
+    this.x = ( stage.width  / 2 ) - ( stage.matrixSize.x * stage.pixelSize / 2 ) + ( x * stage.pixelSize ) + Math.floor( stage.pixelSize / 2);
+    this.y = ( stage.height / 2 ) - ( stage.matrixSize.y * stage.pixelSize / 2 ) + ( y * stage.pixelSize ) + Math.floor( stage.pixelSize / 2);
 
-  // set Pixel Start
-  this.start = { x : this.x, y : this.y };
+    // set pixel start
+    this.start = {
+        "x": this.x,
+        "y": this.y
+    };
 
-  // set Pixel Speed
-  this.speed = { x : 0, y : 0 };
+    // set pixel speed
+    this.speed = {
+        "x": 0,
+        "y": 0
+    };
 
-  // set Pixel Size
-  this.z = stage.pixelSize;
+    // set pixel size
+    this.z = stage.pixelSize;
 
-  // set Pixel Color
-  this.color = stage.colors[color] || "#000";
+    // set pixel color
+    this.color = stage.colors[color] || "#000";
 
-  // set Pixel is not moving
-  this.isMoving = false;
+    // set pixel is not moving
+    this.isMoving = false;
 }
 
 // set the new pixel position
@@ -227,7 +233,7 @@ PXLME.Pixel.prototype.move = function () {
 
     // set start position, if pixel is nearby
     if (this.getDistance( this.start ) < 1 &&
-        this.getDistance( { x : this.x - this.speed.x, y : this.y - this.speed.y }) < this.stage.speedUp) {
+        this.getDistance({ "x": this.x - this.speed.x, "y": this.y - this.speed.y }) < this.stage.speedUp ) {
 
         this.speed.y = 0;
         this.speed.x = 0;
